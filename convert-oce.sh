@@ -54,6 +54,7 @@ convert(){
     		"$newgamedir" || exit 1
 	cd ${newgamedir}
 	wget https://raw.githubusercontent.com/repomansez/rpgmaker-scripts/refs/heads/master/LINUX.README
+	wget https://raw.githubusercontent.com/repomansez/rpgmaker-scripts/refs/heads/master/install_cheatmenu.sh
 	wget https://raw.githubusercontent.com/repomansez/rpgmaker-scripts/refs/heads/master/game.sh
 	chmod u+x game.sh
 }
