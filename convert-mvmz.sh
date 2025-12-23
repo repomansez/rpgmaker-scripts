@@ -86,7 +86,7 @@ convert(){
 	curl -L -f --progress-bar -O https://raw.githubusercontent.com/repomansez/rpgmaker-scripts/refs/heads/master/LINUX.README
 	curl -L -f --progress-bar -O https://raw.githubusercontent.com/repomansez/rpgmaker-scripts/refs/heads/master/install_cheatmenu.sh
 	curl -L -f --progress-bar -O https://raw.githubusercontent.com/repomansez/rpgmaker-scripts/refs/heads/master/game.sh
-	chmod u+x game.sh
+	chmod u+x game.sh install_cheatmenu.sh
 }
 package_game(){
 	echo "do you wish to package the game? y/n"
