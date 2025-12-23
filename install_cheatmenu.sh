@@ -16,6 +16,11 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
+echo "WARNING: This script may not work in every single game."
+echo "If it doesn't, please consult https://github.com/emerladCoder/RPG-Maker-MV-Cheat-Menu-Plugin"
+echo "and install it manually instead."
+echo "Press any key to continue."
+read -r nothing
 
 detect_rpgmver() {
 	       if [ -d "www" ]; then
