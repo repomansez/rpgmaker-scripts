@@ -28,21 +28,25 @@ check_prerequisites() {
         rm -f .write_test
     fi
 }
+make_nwjsdir() {
+	mkdir -p userdata
+}
 
 launch_game() {
     case "$XDG_SESSION_TYPE" in
         wayland)
-            ./nw --ozone-platform=wayland .
+            ./nw --user-data-dir="${PWD}"/userdata --ozone-platform=wayland .
             ;;
         x11)
-            ./nw .
+            ./nw --user-data-dir="${PWD}"/userdata .
             ;;
         *)
             echo "Unknown session type ($XDG_SESSION_TYPE). Falling back to X11 mode."
-            ./nw --ozone-platform=x11 .
+            ./nw --user-data-dir="${PWD}"/userdata --ozone-platform=x11 .
             ;;
     esac
 }
 
 check_prerequisites
+make_nwjsdir
 launch_game
