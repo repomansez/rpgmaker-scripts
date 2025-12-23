@@ -7,7 +7,7 @@ check_prerequisites() {
         exit 1
     fi
 
-    if ! [ -f index.html ] || ! [ -d js ] || ! [ -d data ]; then
+    if ! [ -f index.html ] || ! [ -d js ] && ! [ -d data ] && ! [ -d www ]; then
         echo "This does not look like a RPG Maker MZ/MV game directory."
         echo "Make sure this script is inside the game folder."
         exit 1
