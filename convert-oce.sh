@@ -32,7 +32,13 @@ get_nwjs(){
 	if [ -f nwjs-sdk-v${nwjs_version}-linux-x64.tar.gz ]; then
 		echo "nwjs already downloaded, skipping..."
 	else
-		wget https://dl.nwjs.io/v${nwjs_version}/nwjs-sdk-v${nwjs_version}-linux-x64.tar.gz
+		echo "Downloading nwjs"
+			if ! curl -L -f --progress-bar -O https://dl.nwjs.io/v${nwjs_version}/nwjs-sdk-v${nwjs_version}-linux-x64.tar.gz; then
+				echo "error downloading nwjs"; exit 1
+			else
+				echo "nwjs downloaded"
+			fi
+	sleep 2
 	fi
 }
 
@@ -69,9 +75,10 @@ convert(){
     		"$gamedir/package.json" \
     		"$newgamedir" || exit 1
 	cd ${newgamedir}
-	wget https://raw.githubusercontent.com/repomansez/rpgmaker-scripts/refs/heads/master/LINUX.README
-	wget https://raw.githubusercontent.com/repomansez/rpgmaker-scripts/refs/heads/master/install_cheatmenu.sh
-	wget https://raw.githubusercontent.com/repomansez/rpgmaker-scripts/refs/heads/master/game.sh
+	curl -L --progress-bar -O https://raw.githubusercontent.com/repomansez/rpgmaker-scripts/refs/heads/master/LINUX.README
+	curl -L --progress-bar -O https://raw.githubusercontent.com/repomansez/rpgmaker-scripts/refs/heads/master/install_cheatmenu.sh
+	curl -L --progress-bar -O https://raw.githubusercontent.com/repomansez/rpgmaker-scripts/refs/heads/master/game.sh
+
 	chmod u+x game.sh
 }
 package_game(){
