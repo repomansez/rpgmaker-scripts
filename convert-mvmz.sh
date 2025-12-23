@@ -1,24 +1,9 @@
 #!/bin/sh
 
+
 ## Generic script to convert any RPGMaker MV/MZ game to Linux
 
-# Copyleft (C) 2025 repomansez 
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
-
-
-export nwjs_version=0.78.1
+export nwjs_version=0.78.0
 export gamedir="${1}"
 export newgamedir="nwjs-sdk-v${nwjs_version}-linux-x64"
 pre_checks(){
@@ -40,7 +25,13 @@ get_nwjs(){
 	if [ -f nwjs-sdk-v${nwjs_version}-linux-x64.tar.gz ]; then
 		echo "nwjs already downloaded, skipping..."
 	else
-		wget https://dl.nwjs.io/v${nwjs_version}/nwjs-sdk-v${nwjs_version}-linux-x64.tar.gz
+		echo "Downloading nwjs"
+		if ! curl -L -f --progress-bar -O https://dl.nwjs.io/v${nwjs_version}/nwjs-sdk-v${nwjs_version}-linux-x64.tar.gz; then
+			echo "error downloading nwjs"; exit 1
+		else	
+			echo "nwjs downloaded"
+		fi
+		sleep 2
 	fi
 }
 
@@ -90,9 +81,11 @@ convert(){
 	fi
 
 	cd ${newgamedir}
-	wget https://raw.githubusercontent.com/repomansez/rpgmaker-scripts/refs/heads/master/LINUX.README
-	wget https://raw.githubusercontent.com/repomansez/rpgmaker-scripts/refs/heads/master/install_cheatmenu.sh
-	wget https://raw.githubusercontent.com/repomansez/rpgmaker-scripts/refs/heads/master/game.sh
+	echo "Downloading scripts"
+	sleep 1
+	curl -L -f --progress-bar -O https://raw.githubusercontent.com/repomansez/rpgmaker-scripts/refs/heads/master/LINUX.README
+	curl -L -f --progress-bar -O https://raw.githubusercontent.com/repomansez/rpgmaker-scripts/refs/heads/master/install_cheatmenu.sh
+	curl -L -f --progress-bar -O https://raw.githubusercontent.com/repomansez/rpgmaker-scripts/refs/heads/master/game.sh
 	chmod u+x game.sh
 }
 package_game(){
