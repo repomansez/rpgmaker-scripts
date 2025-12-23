@@ -19,7 +19,7 @@
 echo "WARNING: This script may not work in every single game."
 echo "If it doesn't, please consult https://github.com/emerladCoder/RPG-Maker-MV-Cheat-Menu-Plugin"
 echo "and install it manually instead."
-echo "Press any key to continue."
+echo "Press enter to continue."
 read -r nothing
 
 detect_rpgmver() {
