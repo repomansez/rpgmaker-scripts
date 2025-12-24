@@ -6,6 +6,23 @@
 export nwjs_version=0.78.0
 export gamedir="${1}"
 export newgamedir="nwjs-sdk-v${nwjs_version}-linux-x64"
+
+nwjs_warning(){
+	clear
+	echo "WARNING:
+	"
+	echo "RPGMaker is for some reason VERY sensitive to different nwjs versions."
+	echo "Sometimes even one subversion can be the difference between a game working or not even launching, so if you're having problems, try to experiment with different NW.js versions.
+	"
+	echo "RPGMaker MZ is newer so it's known to work better with newer NW.js versions, while RPGMaker MV usually breaks on anything over version 0.59.1."
+	echo "The current selected nwjs version is v"${nwjs_version}""
+	echo "If you wish to select a different version, please edit the nwjs_version variable
+	"
+	echo "Press enter if you wish to continue"
+	read -r ass 
+	clear
+}
+
 pre_checks(){
 	if [ -z "${gamedir}" ] || [ ! -d "${gamedir}" ]; then
 		echo  "Usage:
@@ -109,6 +126,7 @@ package_game(){
 	esac
 }
 
+nwjs_warning
 pre_checks
 get_nwjs
 unpack_nwjs
