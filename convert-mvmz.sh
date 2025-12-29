@@ -5,7 +5,8 @@
 
 export nwjs_version=0.78.0
 export gamedir="${1}"
-export newgamedir="nwjs-sdk-v${nwjs_version}-linux-x64"
+export nwjs_fulldir="nwjs-sdk-v${nwjs_version}-linux-x64"
+export newgamedir="${nwjs_fulldir}"
 
 nwjs_warning(){
 	clear
@@ -43,7 +44,7 @@ get_nwjs(){
 		echo "nwjs already downloaded, skipping..."
 	else
 		echo "Downloading nwjs"
-		if ! curl -L -f --progress-bar -O https://dl.nwjs.io/v${nwjs_version}/nwjs-sdk-v${nwjs_version}-linux-x64.tar.gz; then
+		if ! curl -L -f --progress-bar -O https://dl.nwjs.io/v${nwjs_version}/${nwjs_fulldir}.tar.gz; then
 			echo "error downloading nwjs"; exit 1
 		else	
 			echo "nwjs downloaded"
@@ -53,13 +54,13 @@ get_nwjs(){
 }
 
 unpack_nwjs(){
-	if [ -d nwjs-sdk-v${nwjs_version}-linux-x64 ]; then
-		echo "already extracted, delete it and extract again? (y/N)"
+	if [ -d "${nwjs_fulldir}" ]; then
+		echo "nwjs directory located, delete it and extract again? (y/N)"
 		read -r answer
 			case "${answer}" in
 				y)
-					rm -rf nwjs-sdk-v${nwjs_version}-linux-x64
-					tar xvf nwjs-sdk-v${nwjs_version}-linux-x64.tar.gz
+					rm -rf "${nwjs_fulldir}"
+					tar xvf "${nwjs_fulldir}.tar.gz"
 					;;
 				n)
 					echo "skipping..."
@@ -72,7 +73,7 @@ unpack_nwjs(){
 			esac
 
 	else
-		tar xvf nwjs-sdk-v${nwjs_version}-linux-x64.tar.gz
+		tar xvf "${nwjs_fulldir}.tar.gz"
 	fi
 }
 
