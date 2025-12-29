@@ -54,7 +54,7 @@ get_nwjs(){
 
 unpack_nwjs(){
 	if [ -d nwjs-sdk-v${nwjs_version}-linux-x64 ]; then
-		echo "already extracted, delete it and extract again? (y/n)"
+		echo "already extracted, delete it and extract again? (y/N)"
 		read -r answer
 			case "${answer}" in
 				y)
@@ -63,10 +63,11 @@ unpack_nwjs(){
 					;;
 				n)
 					echo "skipping..."
+					sleep 2
 					;;
 				*)
-					echo "not understood"
-					exit 1
+					echo "skipping..."
+					sleep 2
 					;;
 			esac
 
@@ -104,17 +105,65 @@ convert(){
 	curl -L -f --progress-bar -O https://raw.githubusercontent.com/repomansez/rpgmaker-scripts/refs/heads/master/install_cheatmenu.sh
 	curl -L -f --progress-bar -O https://raw.githubusercontent.com/repomansez/rpgmaker-scripts/refs/heads/master/game.sh
 	chmod u+x game.sh install_cheatmenu.sh
+	cd ../
 }
+
+rename_dir() {
+	export guess="${gamedir}-linux"
+	if [ -d "${guess}" ]; then
+		echo "Directory "${guess}" already present, do you wish to overwrite it, rename it or exit? (o/r/e)"
+		while :; do
+			echo "Answer: "
+			read -r overwrite
+			case "${overwrite}" in
+				o) 
+					rm -rf "${guess}"
+					mv "${newgamedir}" "${guess}"
+					break
+					;;
+				r)
+					echo "Renaming "${guess}" to "${guess}-$(date +%s)""
+					sleep 2
+					mv "${guess}" "${guess}-old"
+					mv "${newgamedir}" "${guess}"
+					break
+					;;
+				e)
+					echo "Exiting"
+					exit 1
+					;;
+				*)
+					echo "Invalid option, try again"
+					echo "Valid options are"
+					echo "o for overwrite"
+					echo "r for rename"
+					echo "e for exit"
+					;;
+			esac
+		done
+	else 
+		mv "$newgamedir" "$guess"
+	fi
+}
+
 package_game(){
+	pwd
 	echo "do you wish to package the game? y/n"
 	read -r package
 	case ${package} in
 		y)
-			echo "what is the name and version of the game? (e.g. OverconfidentExorcistLinuxv1.01"
+			echo "what is the name and version of the game? (e.g. OverconfidentExorcistLinuxv1.01)"
+			echo "Leave blank for: ${guess}"
 			read -r gamename
-			export gamever="${gamename}"
-			cd ../
-			mv "${newgamedir}" "${gamever}"
+				if [ -z "${gamename}" ]; then
+					gamever="${guess}"
+					echo $gamever
+					export gamever
+				else
+					gamever="${gamename}"
+					export gamever
+					mv "${guess}" "${gamever}"
+				fi
 			tar -vcJf "${gamever}.tar.xz" "${gamever}"
 			;;
 		n)
@@ -131,4 +180,5 @@ pre_checks
 get_nwjs
 unpack_nwjs
 convert
+rename_dir
 package_game
