@@ -40,7 +40,7 @@ pre_checks(){
 	fi
 }
 get_nwjs(){
-	if [ -f nwjs-sdk-v${nwjs_version}-linux-x64.tar.gz ]; then
+	if [ -f "${nwjs_fulldir}.tar.gz" ]; then
 		echo "nwjs already downloaded, skipping..."
 	else
 		echo "Downloading nwjs"
