@@ -37,6 +37,9 @@ pre_checks(){
 	elif [ -d "${gamedir}/js" ]; then
 		echo "RPGMaker MZ detected"
 		export RPGM_VERSION="MZ"
+	else 
+		echo "Couldn't detect an RPG Maker game on the selected directory"
+		exit 1
 	fi
 }
 get_nwjs(){
@@ -176,8 +179,8 @@ package_game(){
 	esac
 }
 
-nwjs_warning
 pre_checks
+nwjs_warning
 get_nwjs
 unpack_nwjs
 convert
