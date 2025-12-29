@@ -80,8 +80,45 @@ unpack_nwjs(){
 	fi
 }
 
+detect_copy_savedir(){
+	if { [ -d "${gamedir}/save" ] && [ "${RPGM_VERSION}" = "MZ" ] } || 
+	   { [ -d "${gamedir}/www/save" ] && [ "${RPGM_VERSION}" = "MV" ]; }; then
+		echo "Save directory detected, do you wish to copy it? (y/n)"
+			while :; do
+				read -r ass
+				case "${ass}" in
+					y)
+						break
+						;;
+					n)
+						return
+						;;
+					*)
+						echo "Incorrect option, try again"
+						;;
+				esac
+			done
+		case "${RPGM_VERSION}" in
+			MZ)
+				echo "Copying RPGMZ save directory"
+				cp -rv "${gamedir}/save" "${newgamedir}"
+				;;
+			MV)
+				echo "Copying RPGMV save directory"
+				cp -rv "${gamedir}/www/save" "${newgamedir}"
+				;;
+			*)
+				echo "If you can read this that means you broke the script somehow"
+				;;
+		esac
+	else 
+		echo "No save directory detected"
+	fi
+}
+			
 convert(){
 	if [ "${RPGM_VERSION}" = "MZ" ]; then
+					
 		for p in audio css data effects fonts icon img js movies; do
 			if [ -d "${gamedir}/${p}" ]; then
     				cp -Rvp "$gamedir/$p" "$newgamedir" || exit 1
@@ -102,7 +139,7 @@ convert(){
 			"${newgamedir}" || exit
 	fi
 
-	cd ${newgamedir}
+	cd "${newgamedir}"
 	echo "Downloading scripts"
 	sleep 1
 	curl -L -f --progress-bar -O https://raw.githubusercontent.com/repomansez/rpgmaker-scripts/refs/heads/master/LINUX.README
@@ -115,7 +152,7 @@ convert(){
 rename_dir() {
 	export guess="${gamedir}-linux"
 	if [ -d "${guess}" ]; then
-		echo "Directory "${guess}" already present, do you wish to overwrite it, rename it or exit? (o/r/e)"
+		echo "Directory ${guess} already present, do you wish to overwrite it, rename it or exit? (o/r/e)"
 		while :; do
 			echo "Answer: "
 			read -r overwrite
@@ -126,7 +163,7 @@ rename_dir() {
 					break
 					;;
 				r)
-					echo "Renaming "${guess}" to "${guess}-$(date +%s)""
+					echo "Renaming ${guess} to ${guess}-$(date +%s)"
 					sleep 2
 					mv "${guess}" "${guess}-old"
 					mv "${newgamedir}" "${guess}"
@@ -148,10 +185,11 @@ rename_dir() {
 	else 
 		mv "$newgamedir" "$guess"
 	fi
+	
+	echo "Final game extracted to ${guess}"
 }
 
 package_game(){
-	pwd
 	echo "do you wish to package the game? y/n"
 	read -r package
 	case ${package} in
@@ -161,7 +199,6 @@ package_game(){
 			read -r gamename
 				if [ -z "${gamename}" ]; then
 					gamever="${guess}"
-					echo $gamever
 					export gamever
 				else
 					gamever="${gamename}"
@@ -184,5 +221,6 @@ nwjs_warning
 get_nwjs
 unpack_nwjs
 convert
+detect_copy_savedir
 rename_dir
 package_game
