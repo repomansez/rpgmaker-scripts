@@ -96,8 +96,8 @@ unpack_nwjs(){
 }
 
 detect_copy_savedir(){
-	if { [ -d "${gamedir}/save" ] && [ "${RPGM_VERSION}" = "MZ" ] } || 
-	   { [ -d "${gamedir}/www/save" ] && [ "${RPGM_VERSION}" = "MV" ]; }; then
+	if { [ -d "${gamedir}/save" ] && [ "${RPGM_VERSION}" = "MZ" ]; } || 
+	   { [ -d "${gamedir}/www/save" ] && [ "${RPGM_VERSION}" = "MV" ]; } then
 		echo "Save directory detected, do you wish to copy it? (y/n)"
 			while :; do
 				read -r ass
