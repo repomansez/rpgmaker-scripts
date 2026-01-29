@@ -18,7 +18,7 @@
 
 check_prerequisites() {
     if [ "$(id -u)" = 0 ]; then
-        echo "Do not run as root — run as the normal user you'll play the game with."
+        echo "Do not run as root, run as the normal user you'll play the game with."
         exit 1
     fi
 
@@ -29,7 +29,7 @@ check_prerequisites() {
     fi
 
     if ! [ -f package.json ]; then
-        echo "Missing package.json — cannot run NW.js game."
+        echo "Missing package.json, cannot run game."
         exit 1
     fi
 
@@ -38,7 +38,8 @@ check_prerequisites() {
     fi
 
     if ! touch .write_test 2>/dev/null; then
-        echo "Warning: Directory is read-only — saves may not work."
+        echo "Warning: Directory is read-only, please add write permissions."
+		exit 1
     else
         rm -f .write_test
     fi
