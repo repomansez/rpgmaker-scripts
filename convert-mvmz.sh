@@ -231,11 +231,15 @@ package_game(){
 	esac
 }
 
-pre_checks
-nwjs_warning
-get_nwjs
-unpack_nwjs
-convert
-detect_copy_savedir
-rename_dir
-package_game
+main(){
+	pre_checks
+	nwjs_warning
+	get_nwjs
+	unpack_nwjs
+	convert
+	detect_copy_savedir
+	rename_dir
+	package_game
+}
+
+main
