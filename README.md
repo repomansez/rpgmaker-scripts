@@ -16,3 +16,7 @@ Three reasons:
 RPGMaker is for some reason VERY sensitive to different nwjs versions, sometimes even one subversion can be the difference between a game working or not even launching, so if you're having problems, try to experiment with different NW.js versions.
 
 RPGMaker MZ is newer so it's known to work better with newer NW.js versions, while RPGMaker MV usually breaks on anything over version 0.59.1.
+
+# FreeBSD Support
+
+The conversion script works perfectly under FreeBSD environments, but I have not been able to run NWjs itself on FreeBSD with any level of stability.
